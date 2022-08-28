@@ -27,7 +27,7 @@ struct Place {
         for place in restaurantNames {
             places.append(Place(name: place, location: "Ufa", type: "Restauran", image: place))
         }
-        
+    
          return places
     }
    
