@@ -33,7 +33,7 @@ class MainViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
 
         cell.nameLabel.text = places[indexPath.row].name
-        cell.imageOfPlace.image = UIImage(named: places[indexPath.row].image)
+        cell.imageOfPlace.image = UIImage(named: places[indexPath.row].restaurantImage!)
         cell.typeLabel.text = places[indexPath.row].type
         cell.lacationLabel.text = places[indexPath.row].location
         cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2
