@@ -9,7 +9,10 @@
 import UIKit
 
 class NewPlaceViewController: UITableViewController {
-
+    
+    var imageIsChanged = false
+    var currentPlace: Place?
+    
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var placeImage: UIImageView!
     @IBOutlet var placeName: UITextField!
@@ -18,11 +21,23 @@ class NewPlaceViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+//        DispatchQueue.main.async {
+//            self.newPlace.savePlace()
+//        }
+  
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         tableView.tableFooterView = UIView()
+        setupEditScreen()
     }
     
+    
+    private func setupNavigationBar(){
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
+    }
     // MARK: Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -60,8 +75,32 @@ class NewPlaceViewController: UITableViewController {
             view.endEditing(true)
         }
     }
+    
+    func saveNewPlace(){
+        
+        let image = imageIsChanged ? placeImage.image : UIImage(named: "imagePlaceholder")
+                
+        let newPlace = Place(name: placeName.text!,
+                             location: placeLocation.text,
+                             type: placeType.text,
+                             image: image!.pngData())
+        StorageManager.saveObject(newPlace)
+        
+    }
 
-
+    private func setupEditScreen(){
+        guard let currentPlace = currentPlace else { return }
+        guard let data = currentPlace.imageData, let image = UIImage(data: data) else { return }
+        placeImage.image = image
+        placeType.text = currentPlace.type
+        placeName.text = currentPlace.name
+        placeLocation.text = currentPlace.location
+        placeImage.contentMode = .scaleAspectFill
+    }
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        dismiss(animated: true)
+    }
 }
 
 // MARK: Text field delegate
@@ -98,7 +137,7 @@ extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationC
     
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
+        imageIsChanged = true
         placeImage.image = info[.editedImage] as? UIImage
         placeImage.contentMode = .scaleAspectFill
         placeImage.clipsToBounds = true
