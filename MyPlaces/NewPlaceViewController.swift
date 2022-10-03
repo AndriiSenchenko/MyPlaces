@@ -21,18 +21,11 @@ class NewPlaceViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        DispatchQueue.main.async {
-//            self.newPlace.savePlace()
-//        }
-  
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         tableView.tableFooterView = UIView()
         setupEditScreen()
-       
     }
-    
     
     private func setupNavigationBar(){
         if let topItem  = navigationController?.navigationBar.topItem{
@@ -42,18 +35,15 @@ class NewPlaceViewController: UITableViewController {
         title = currentPlace!.name
         saveButton.isEnabled = true
     }
+    
     // MARK: Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if indexPath.row == 0 {
-            
             let cameraIcon = UIImage(named: "camera")
             let photoIcon = UIImage(named: "photo")
-            
             let actionSheet = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
-            
             let camera = UIAlertAction(title: "Camera", style: .default) { _ in
                 self.chooseImagePicker(source: .camera)
             }
@@ -81,9 +71,7 @@ class NewPlaceViewController: UITableViewController {
     }
     
     func savePlace(){
-        
         let image = imageIsChanged ? placeImage.image : UIImage(named: "imagePlaceholder")
-                
         let newPlace = Place(name: placeName.text!,
                              location: placeLocation.text,
                              type: placeType.text,
@@ -96,7 +84,7 @@ class NewPlaceViewController: UITableViewController {
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
             }
-        }else{
+        } else {
         StorageManager.saveObject(newPlace)
         }
     }

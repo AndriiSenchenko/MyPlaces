@@ -9,30 +9,18 @@
 import UIKit
 import RealmSwift
 
-
-class MainViewController: UITableViewController {
-
-    var places: Results<Place>!
-
+ class MainViewController: UITableViewController {
     
+     var places: Results<Place>!
+    
+  // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+        StorageManager.seedData()
         places = realm.objects(Place.self)
-        
     }
 
     //MARK: - Table view delegate
-//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let place = places[indexPath.row]
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete"){_,_,_ in
-//            StorageManager.deleteObject(place)
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//        }
-//        return deleteAction
-//    }
-//
-    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
                 let place = places[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete"){(_,_) in
@@ -61,16 +49,12 @@ class MainViewController: UITableViewController {
         cell.lacationLabel.text = place.location
         cell.imageOfPlace.clipsToBounds = true
         cell.imageOfPlace.image = UIImage(data: place.imageData!)
-        
-
-        
         cell.imageOfPlace.layer.cornerRadius = cell.imageOfPlace.frame.size.height / 2
 
         return cell
     }
 
     //MARK: - Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail"{
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
@@ -83,7 +67,6 @@ class MainViewController: UITableViewController {
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue){
         guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
         newPlaceVC.savePlace()
-    //    places.append(newPlaceVC.newPlace!)
         tableView.reloadData()
     }
     
