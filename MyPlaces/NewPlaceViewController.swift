@@ -18,13 +18,17 @@ class NewPlaceViewController: UITableViewController {
     @IBOutlet var placeName: UITextField!
     @IBOutlet var placeType: UITextField!
     @IBOutlet var placeLocation: UITextField!
+    @IBOutlet var ratingControl: RatingControl!
     
     // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0,
+                                                         y: 0,
+                                                         width: tableView.frame.size.width,
+                                                         height: 1))
         setupEditScreen()
     }
     
@@ -76,7 +80,8 @@ class NewPlaceViewController: UITableViewController {
         let newPlace = Place(name: placeName.text!,
                              location: placeLocation.text,
                              type: placeType.text,
-                             image: image!.pngData())
+                             image: image!.pngData(),
+                             rating: Double(ratingControl.rating))
         
         if currentPlace != nil {
             try! realm.write(){
@@ -84,6 +89,7 @@ class NewPlaceViewController: UITableViewController {
                 currentPlace?.location = newPlace.location
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
+                currentPlace?.rating = newPlace.rating
             }
         } else {
         StorageManager.saveObject(newPlace)
@@ -98,13 +104,21 @@ class NewPlaceViewController: UITableViewController {
         placeName.text = currentPlace.name
         placeLocation.text = currentPlace.location
         placeImage.contentMode = .scaleAspectFill
-        
+        ratingControl.rating = Int(currentPlace.rating)
          setupNavigationBar()
          imageIsChanged = true
     }
     
     @IBAction func cancelAction(_ sender: Any) {
         dismiss(animated: true)
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "showMap" else { return }
+        let mapVC = segue.destination as! MapViewController
+        mapVC.place = currentPlace
+
     }
 }
 

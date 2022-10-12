@@ -8,7 +8,7 @@
 
 import UIKit
 
-//@IBDesignable
+@IBDesignable
 class RatingControl: UIStackView {
 
     // MARK: - Properties
@@ -54,9 +54,13 @@ class RatingControl: UIStackView {
 
         // Load button images
         let bundle = Bundle(for: type(of: self))
-        let filledStar = UIImage(named: "filledStar", in: bundle, compatibleWith: self.traitCollection)
+        let filledStar = UIImage(named: "filledStar",
+                                 in: bundle,
+                                 compatibleWith: self.traitCollection)
         let emptyStar = UIImage(named: "emptyStar", in: bundle, compatibleWith: self.traitCollection)
-        let highligtStar  = UIImage(named: "highlightStar", in: bundle, compatibleWith: self.traitCollection)
+        let highligtStar  = UIImage(named: "highlightStar",
+                                    in: bundle,
+                                    compatibleWith: self.traitCollection)
 
 
         for _ in 0 ..< starCount {
