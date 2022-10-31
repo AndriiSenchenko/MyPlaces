@@ -389,7 +389,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="doneButtonPressed:" destination="Uzy-51-AL1" eventType="touchUpInside" id="186-wN-o1c"/>
+                                    <action selector="doneButtonPressed" destination="Uzy-51-AL1" eventType="touchUpInside" id="Kix-eh-WW7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vj7-TX-CBi">
@@ -400,7 +400,7 @@
                                 </constraints>
                                 <state key="normal" image="GetDirection"/>
                                 <connections>
-                                    <action selector="goButtonPressed:" destination="Uzy-51-AL1" eventType="touchUpInside" id="qlW-v1-wOe"/>
+                                    <action selector="goButtonPressed" destination="Uzy-51-AL1" eventType="touchUpInside" id="HKb-O4-xcT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxH-GF-W5c">
